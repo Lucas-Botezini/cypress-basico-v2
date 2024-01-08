@@ -2,6 +2,8 @@
 
 /// <reference types="Cypress" />
 
+// const { Context } = require("mocha")
+
 // const { each } = require("cypress/types/bluebird")
 
 describe('Central de Atendimento ao Cliente TAT', function() {
@@ -26,8 +28,10 @@ describe('Central de Atendimento ao Cliente TAT', function() {
             cy.title().should('be.equal','Central de Atendimento ao Cliente TAT')
         })
      
-        it('preenche os dados e envia o form', function() {
-    
+        it.only('preenche os dados e envia o form', function() {
+            
+            cy.clock()
+
             cy.get('#firstName').type('Lucas')
             
             cy.get('#lastName').type('Botezini')
@@ -38,7 +42,12 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     
             // cy.get('button[type="submit"]').click()
             cy.contains('button', 'Enviar').click()
+
             cy.get('.success').should('be.visible')
+            
+            cy.tick(3000)
+            
+            cy.get('.success').should('not.be.visible')
         })
         
         it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function() {
@@ -238,4 +247,25 @@ describe('Central de Atendimento ao Cliente TAT', function() {
 
         })
     })
+
+    context('Seção Avançada', () => {
+
+        it('verificar que a mensagem de erro aparece depois de 3 segundos', function() {
+
+            cy.clock()
+
+            cy.get('button[type="submit"]').click()
+
+            cy.get('.error').should('be.visible')
+
+            cy.tick(3000)
+            cy.get('.error').should('not.be.visible')
+            // cy.contains('.error', 'Valide os campos obrigatorios!').should('not.be.visible')
+
+        })
+
+
+    })
+
+
 })
