@@ -28,7 +28,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
             cy.title().should('be.equal','Central de Atendimento ao Cliente TAT')
         })
      
-        it.only('preenche os dados e envia o form', function() {
+        it('preenche os dados e envia o form', function() {
             
             cy.clock()
 
